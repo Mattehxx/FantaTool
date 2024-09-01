@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="/frontend/assets/modules/bootstrap/bootstrap.min.css">
+</head>
+<body>
+    <section id="main-app" class="d-flex justify-content-center align-items-center" style="min-height: 100vh; max-width: 100vw;" v-cloak>
+        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 90%; padding: 1rem;">
+            <h1 class="text-center">{{ title }}</h1>
+            <div class="card w-100">
+                <div class="card-body text-bg-light d-flex justify-content-start align-items-center">
+                    <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+                        <label>Ruolo</label>
+                        <select class="form-select" v-model="selectedRole" @change="onRoleChange">
+                            <option value="All">Tutti</option>
+                            <option v-for="role in roles" :style="{'color': rolesColors[role]}">{{ role }}</option>
+                        </select>                      
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th v-for="header in headers">{{ header }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="player in displayedPlayers">
+                        <td :style="{'color': rolesColors[player.role]}">{{ player.role }}</td>
+                        <td>{{ player.name }}</td>
+                        <td>{{ player.squad }}</td>
+                        <td>{{ player.fmv }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- SCRIPTS -->
+    <script src="/frontend/assets/modules/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/frontend/assets/modules/vue/vue.global.js"></script>
+    <script src="/frontend/assets/js/main.js"></script>
+</body>
+</html>
