@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-striped">
+            <table class="table table-striped mt-4">
                 <thead>
                     <tr>
                         <th v-for="header in headers">{{ header }}</th>
@@ -33,8 +33,9 @@
                     <tr v-for="player in displayedPlayers">
                         <td :style="{'color': rolesColors[player.role]}">{{ player.role }}</td>
                         <td>{{ player.name }}</td>
-                        <td>{{ player.squad }}</td>
+                        <td>{{ player.team }}</td>
                         <td>{{ player.fmv }}</td>
+                        <td><button class="btn btn-outline-primary" @click="openPlayerDetails(player.id)"><i class="fa-solid fa-magnifying-glass"></i></button></td>
                     </tr>
                 </tbody>
             </table>
@@ -43,6 +44,7 @@
 
     <!-- SCRIPTS -->
     <script src="/frontend/assets/modules/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/265cf19e97.js"></script>
     <script src="/frontend/assets/modules/vue/vue.global.js"></script>
     <script src="/frontend/assets/js/main.js"></script>
 </body>

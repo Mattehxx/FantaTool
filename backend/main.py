@@ -11,9 +11,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 def playersQuotes():
     COLUMN_NAMES = {
+        'id': 0,
         'role': 1,
         'name': 3,
-        'squad': 4,
+        'team': 4,
         'fmv': 11
     }
     FILE_CREDITS = 1000
@@ -26,9 +27,10 @@ def playersQuotes():
         if(index == 0):
             continue
         formattedData.append({
+            'id': row.iat[COLUMN_NAMES['id']],
             'role': row.iat[COLUMN_NAMES['role']],
             'name': row.iat[COLUMN_NAMES['name']],
-            'squad': row.iat[COLUMN_NAMES['squad']],
+            'team': row.iat[COLUMN_NAMES['team']],
             'fmv': math.ceil(row.iat[COLUMN_NAMES['fmv']] * (GAME_CREDITS / FILE_CREDITS))
         })
     

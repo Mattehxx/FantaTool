@@ -32,6 +32,11 @@ Vue.createApp({
                 this.displayedPlayers = this.players;
             else
                 this.displayedPlayers = this.players.filter(player => player.role === this.selectedRole);
+        },
+        openPlayerDetails(id) {
+            const player = this.players.find(player => player.id === id);
+            //open a new window with a query parameter player id
+            window.open(`player-details.html?id=${player.id}`, '_blank');
         }
     },
     computed: {
