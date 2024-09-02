@@ -2,6 +2,7 @@ Vue.createApp({
     name: 'main-app',
     data() {
         return {
+            loaded: false,
             title: 'FantaTool',
             rolesColors: {
                 'P': '#f8ab12',
@@ -14,10 +15,24 @@ Vue.createApp({
                 'Nome',
                 'Squadra',
                 'FMV',
+                'Presenze',
+                'Media voto',
+                'Fantamedia',
+                'Gol fatti',
+                'Gol subiti',
+                'Rigori parati',
+                'Rigori calciati',
+                'Rigori segnati',
+                'Rigori sbagliati',
+                'Assist',
+                'Ammonizioni',
+                'Espulsioni',
+                'Autogol'
             ],
             players: [],
             displayedPlayers: [],
             selectedRole: 'All',
+            playersStats: []
         };
     },
     methods: {
@@ -25,18 +40,52 @@ Vue.createApp({
             const response = await fetch('http://localhost:5000/players/quotes');
             const data = await response.json();
             this.players = data;
-            this.displayedPlayers = data;
+        },
+        async fetchPlayersStats() {
+            const response = await fetch('http://localhost:5000/players/stats');
+            const data = await response.json();
+            this.playersStats = data;
+            this.displayedPlayers = this.players.map(player => {
+                const stats = this.playersStats.find(ps => ps.id === player.id);
+                if(!stats) {
+                    return {
+                        id: player.id,
+                        role: player.role,
+                        name: player.name,
+                        team: player.team,
+                        fmv: player.fmv,
+                        stats: {
+                            pv: '-',
+                            mv: '-',
+                            fm: '-',
+                            gf: '-',
+                            gs: '-',
+                            rp: '-',
+                            rc: '-',
+                            rs: '-',
+                            rb: '-',
+                            as: '-',
+                            am: '-',
+                            es: '-',
+                            ag: '-'
+                        }
+                    }
+                }
+                return {
+                    id: player.id,
+                    role: player.role,
+                    name: player.name,
+                    team: player.team,
+                    fmv: player.fmv,
+                    stats: stats
+                };
+            });
         },
         onRoleChange() {
             if (this.selectedRole === 'All')
                 this.displayedPlayers = this.players;
             else
                 this.displayedPlayers = this.players.filter(player => player.role === this.selectedRole);
-        },
-        openPlayerDetails(id) {
-            const player = this.players.find(player => player.id === id);
-            //open a new window with a query parameter player id
-            window.open(`player-details.html?id=${player.id}`, '_blank');
         }
     },
     computed: {
@@ -44,7 +93,9 @@ Vue.createApp({
             return this.players.map(player => player.role).filter((value, index, self) => self.indexOf(value) === index);
         }
     },
-    mounted() {
-        this.fetchPlayers();
+    async created() {
+        await this.fetchPlayers();
+        await this.fetchPlayersStats();
+        this.loaded = true;
     }
 }).mount('#main-app');

@@ -36,5 +36,50 @@ def playersQuotes():
     
     return formattedData
 
+@app.route('/players/stats', methods=['GET'])
+@cross_origin()
+def playersStats():
+    COLUMN_NAMES = {
+        'id': 0,
+        'pv': 5,  # presenze
+        'mv': 6,  # media voto
+        'fm': 7,  # fantamedia
+        'gf': 8,  # gol fatti
+        'gs': 9,  # gol subiti
+        'rp': 10, # rigori parati
+        'rc': 11, # rigori calciati
+        'rs': 12, # rigori segnati
+        'rb': 13, # rigori sbagliati
+        'as': 14, # assist
+        'am': 15, # ammonizioni
+        'es': 16, # espulsioni
+        'au': 17  # autogol
+    }
+    formattedData = []
+
+    data = pd.read_excel('backend\\assets\\data\\stats\\Stats_2023_24.xlsx')
+    
+    for index, row in data.iterrows():
+        if(index == 0):
+            continue
+        formattedData.append({
+            'id': row.iat[COLUMN_NAMES['id']],
+            'pv': row.iat[COLUMN_NAMES['pv']],
+            'mv': row.iat[COLUMN_NAMES['mv']],
+            'fm': row.iat[COLUMN_NAMES['fm']],
+            'gf': row.iat[COLUMN_NAMES['gf']],
+            'gs': row.iat[COLUMN_NAMES['gs']],
+            'rp': row.iat[COLUMN_NAMES['rp']],
+            'rc': row.iat[COLUMN_NAMES['rc']],
+            'rs': row.iat[COLUMN_NAMES['rs']],
+            'rb': row.iat[COLUMN_NAMES['rb']],
+            'as': row.iat[COLUMN_NAMES['as']],
+            'am': row.iat[COLUMN_NAMES['am']],
+            'es': row.iat[COLUMN_NAMES['es']],
+            'au': row.iat[COLUMN_NAMES['au']]
+        })
+    
+    return formattedData
+
 if __name__ == '__main__':
     app.run(port=5000)

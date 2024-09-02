@@ -10,7 +10,7 @@
 </head>
 <body>
     <section id="main-app" class="d-flex justify-content-center align-items-center" style="min-height: 100vh; max-width: 100vw;" v-cloak>
-        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 90%; padding: 1rem;">
+        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 90%; padding: 1rem;" v-if="loaded">
             <h1 class="text-center">{{ title }}</h1>
             <div class="card w-100">
                 <div class="card-body text-bg-light d-flex justify-content-start align-items-center">
@@ -35,7 +35,19 @@
                         <td>{{ player.name }}</td>
                         <td>{{ player.team }}</td>
                         <td>{{ player.fmv }}</td>
-                        <td><button class="btn btn-outline-primary" @click="openPlayerDetails(player.id)"><i class="fa-solid fa-magnifying-glass"></i></button></td>
+                        <td>{{ player.stats.pv }}</td>
+                        <td>{{ player.stats.mv }}</td>
+                        <td>{{ player.stats.fm }}</td>
+                        <td>{{ player.stats.gf }}</td>
+                        <td>{{ player.stats.gs }}</td>
+                        <td>{{ player.stats.rp }}</td>
+                        <td>{{ player.stats.rc }}</td>
+                        <td>{{ player.stats.rs }}</td>
+                        <td>{{ player.stats.rb }}</td>
+                        <td>{{ player.stats.as }}</td>
+                        <td>{{ player.stats.am }}</td>
+                        <td>{{ player.stats.es }}</td>
+                        <td>{{ player.stats.au }}</td>
                     </tr>
                 </tbody>
             </table>
