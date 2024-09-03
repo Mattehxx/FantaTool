@@ -13,20 +13,29 @@
         <div class="d-flex flex-column justify-content-center align-items-center" style="width: 90%; padding: 1rem;" v-if="loaded">
             <h1 class="text-center">{{ title }}</h1>
             <div class="card w-100">
-                <div class="card-body text-bg-light d-flex justify-content-start align-items-center">
-                    <div class="d-flex flex-column justify-content-center align-items-center gap-2">
+                <div class="card-body text-bg-light d-flex justify-content-start align-items-center gap-4">
+                    <div class="d-flex flex-column justify-content-center align-items-start gap-2">
                         <label>Ruolo</label>
-                        <select class="form-select" v-model="selectedRole" @change="onRoleChange">
+                        <select class="form-select" v-model="selectedRole" @change="onFiltersChange" style="cursor: pointer;">
                             <option value="All">Tutti</option>
                             <option v-for="role in roles" :style="{'color': rolesColors[role]}">{{ role }}</option>
                         </select>                      
                     </div>
+                    <div class="d-flex flex-column justify-content-center align-items-start gap-2">
+                        <label>Nome</label>
+                        <input type="text" class="form-control" placeholder="Nome" v-model="searchedPlayer" @input="onFiltersChange">                      
+                    </div>
                 </div>
             </div>
-            <table class="table table-striped mt-4">
+            <table class="table table-striped table-bordered mt-4 w-100">
                 <thead>
                     <tr>
-                        <th v-for="header in headers">{{ header }}</th>
+                        <th v-for="header in headers">
+                            <div class="d-flex justify-content-start align-items-center gap-3">
+                                <span>{{ header }}</span> 
+                                <i class="fa-solid fa-sort" @click="sort(header)" style="cursor: pointer;"></i>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,19 +44,19 @@
                         <td>{{ player.name }}</td>
                         <td>{{ player.team }}</td>
                         <td>{{ player.fmv }}</td>
-                        <td>{{ player.stats.pv }}</td>
-                        <td>{{ player.stats.mv }}</td>
-                        <td>{{ player.stats.fm }}</td>
-                        <td>{{ player.stats.gf }}</td>
-                        <td>{{ player.stats.gs }}</td>
-                        <td>{{ player.stats.rp }}</td>
-                        <td>{{ player.stats.rc }}</td>
-                        <td>{{ player.stats.rs }}</td>
-                        <td>{{ player.stats.rb }}</td>
-                        <td>{{ player.stats.as }}</td>
-                        <td>{{ player.stats.am }}</td>
-                        <td>{{ player.stats.es }}</td>
-                        <td>{{ player.stats.au }}</td>
+                        <td>{{ player.pv }}</td>
+                        <td>{{ player.mv }}</td>
+                        <td>{{ player.fm }}</td>
+                        <td>{{ player.gf }}</td>
+                        <td>{{ player.gs }}</td>
+                        <td>{{ player.rp }}</td>
+                        <td>{{ player.rc }}</td>
+                        <td>{{ player.rs }}</td>
+                        <td>{{ player.rb }}</td>
+                        <td>{{ player.as }}</td>
+                        <td>{{ player.am }}</td>
+                        <td>{{ player.es }}</td>
+                        <td>{{ player.au }}</td>
                     </tr>
                 </tbody>
             </table>

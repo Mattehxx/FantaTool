@@ -22,7 +22,7 @@ def playersQuotes():
     GAME_CREDITS = 500
     formattedData = []
 
-    full_path = os.path.realpath('assets\\data\\quotes\\Quotes_2024_25.xlsx')
+    full_path = os.path.realpath('backend\\assets\\data\\quotes\\Quotes_2024_25.xlsx')
     data = pd.read_excel(full_path)
     
     for index, row in data.iterrows():
@@ -59,7 +59,7 @@ def playersStats():
     }
     formattedData = []
 
-    full_path = os.path.realpath('assets\\data\\stats\\Stats_2023_24.xlsx')
+    full_path = os.path.realpath('backend\\assets\\data\\stats\\Stats_2023_24.xlsx')
     data = pd.read_excel(full_path)
     
     for index, row in data.iterrows():

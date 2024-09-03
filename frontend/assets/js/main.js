@@ -15,24 +15,27 @@ Vue.createApp({
                 'Nome',
                 'Squadra',
                 'FMV',
-                'Presenze',
-                'Media voto',
-                'Fantamedia',
-                'Gol fatti',
-                'Gol subiti',
-                'Rigori parati',
-                'Rigori calciati',
-                'Rigori segnati',
-                'Rigori sbagliati',
-                'Assist',
-                'Ammonizioni',
-                'Espulsioni',
-                'Autogol'
+                'P',
+                'Mv',
+                'Fm',
+                'Gf',
+                'Gs',
+                'Rp',
+                'Rc',
+                'R+',
+                'R-',
+                'Ass',
+                'Amm',
+                'Esp',
+                'Ag'
             ],
             players: [],
+            stats: [],
+            playersStats: [],
             displayedPlayers: [],
             selectedRole: 'All',
-            playersStats: []
+            searchedPlayer: '',
+            isSortDirectionAsc: true
         };
     },
     methods: {
@@ -44,9 +47,9 @@ Vue.createApp({
         async fetchPlayersStats() {
             const response = await fetch('http://localhost:5000/players/stats');
             const data = await response.json();
-            this.playersStats = data;
-            this.displayedPlayers = this.players.map(player => {
-                const stats = this.playersStats.find(ps => ps.id === player.id);
+            this.stats = data;
+            this.playersStats = this.players.map(player => {
+                const stats = this.stats.find(ps => ps.id === player.id);
                 if(!stats) {
                     return {
                         id: player.id,
@@ -54,21 +57,19 @@ Vue.createApp({
                         name: player.name,
                         team: player.team,
                         fmv: player.fmv,
-                        stats: {
-                            pv: '-',
-                            mv: '-',
-                            fm: '-',
-                            gf: '-',
-                            gs: '-',
-                            rp: '-',
-                            rc: '-',
-                            rs: '-',
-                            rb: '-',
-                            as: '-',
-                            am: '-',
-                            es: '-',
-                            ag: '-'
-                        }
+                        pv: 0,
+                        mv: 0,
+                        fm: 0,
+                        gf: 0,
+                        gs: 0,
+                        rp: 0,
+                        rc: 0,
+                        rs: 0,
+                        rb: 0,
+                        as: 0,
+                        am: 0,
+                        es: 0,
+                        au: 0
                     }
                 }
                 return {
@@ -77,20 +78,100 @@ Vue.createApp({
                     name: player.name,
                     team: player.team,
                     fmv: player.fmv,
-                    stats: stats
+                    pv: stats.pv,
+                    mv: stats.mv,
+                    fm: stats.fm,
+                    gf: stats.gf,
+                    gs: stats.gs,
+                    rp: stats.rp,
+                    rc: stats.rc,
+                    rs: stats.rs,
+                    rb: stats.rb,
+                    as: stats.as,
+                    am: stats.am,
+                    es: stats.es,
+                    au: stats.au
                 };
             });
+            this.displayedPlayers = this.playersStats;
         },
-        onRoleChange() {
-            if (this.selectedRole === 'All')
-                this.displayedPlayers = this.players;
-            else
-                this.displayedPlayers = this.players.filter(player => player.role === this.selectedRole);
+        onFiltersChange() {
+            this.displayedPlayers = this.playersStats.filter(player => this.selectedRoles.includes(player.role) && player.name.toLowerCase().includes(this.searchedPlayer.toLowerCase()));
+        },
+        sort(header) {
+            if(this.isSortDirectionAsc) {
+                this.isSortDirectionAsc = false;
+                this.displayedPlayers = this.playersStats;
+                this.sortAsc(this.displayedPlayers, header);
+            } else {
+                this.isSortDirectionAsc = true;
+                this.displayedPlayers = this.playersStats;
+                this.sortDesc(this.displayedPlayers, header);
+            }
+        },
+        sortAsc(array, key) {
+            key = this.computeKey(key);
+            array.sort((a, b) => {
+                if(!isNaN(a[key])) {
+                    return a[key] - b[key];
+                }
+                return a[key].localeCompare(b[key])
+            });
+        },
+        sortDesc(array, key) {
+            key = this.computeKey(key);
+            array.sort((a, b) => {
+                if(!isNaN(a[key])) {
+                    return b[key] - a[key];
+                }
+                return b[key].localeCompare(a[key])
+            });
+        },
+        computeKey(key) {
+            switch (key) {
+                case 'Ruolo':
+                    return 'role';
+                case 'Nome':
+                    return 'name';
+                case 'Squadra':
+                    return 'team';
+                case 'FMV':
+                    return 'fmv';
+                case 'P':
+                    return 'pv';
+                case 'Mv':
+                    return 'mv';
+                case 'Fm':
+                    return 'fm';
+                case 'Gf':
+                    return 'gf';
+                case 'Gs':
+                    return 'gs';
+                case 'Rp':
+                    return 'rp';
+                case 'Rc':
+                    return 'rc';
+                case 'R+':
+                    return 'rs';
+                case 'R-':
+                    return 'rb';
+                case 'Ass':
+                    return 'as';
+                case 'Amm':
+                    return 'am';
+                case 'Esp':
+                    return 'es';
+                case 'Ag':
+                    return 'au';
+            }
         }
-    },
+    }, 
     computed: {
         roles() {
             return this.players.map(player => player.role).filter((value, index, self) => self.indexOf(value) === index);
+        },
+        selectedRoles() {
+            return this.selectedRole === 'All' ? this.roles : [this.selectedRole];
         }
     },
     async created() {
