@@ -1,4 +1,5 @@
 import math
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import pandas as pd
@@ -21,7 +22,8 @@ def playersQuotes():
     GAME_CREDITS = 500
     formattedData = []
 
-    data = pd.read_excel('backend\\assets\\data\\quotes\\Quotes_2024_25.xlsx')
+    full_path = os.path.realpath('assets\\data\\quotes\\Quotes_2024_25.xlsx')
+    data = pd.read_excel(full_path)
     
     for index, row in data.iterrows():
         if(index == 0):
@@ -57,7 +59,8 @@ def playersStats():
     }
     formattedData = []
 
-    data = pd.read_excel('backend\\assets\\data\\stats\\Stats_2023_24.xlsx')
+    full_path = os.path.realpath('assets\\data\\stats\\Stats_2023_24.xlsx')
+    data = pd.read_excel(full_path)
     
     for index, row in data.iterrows():
         if(index == 0):
