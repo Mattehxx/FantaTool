@@ -40,60 +40,68 @@ Vue.createApp({
     },
     methods: {
         async fetchPlayers() {
-            const response = await fetch('http://localhost:5000/players/quotes');
-            const data = await response.json();
-            this.players = data;
+            try {
+                const response = await fetch('http://localhost:5000/players/quotes');
+                const data = await response.json();
+                this.players = data;    
+            } catch (error) {
+                location.href = '/frontend/error.html';
+            }
         },
         async fetchPlayersStats() {
-            const response = await fetch('http://localhost:5000/players/stats');
-            const data = await response.json();
-            this.stats = data;
-            this.playersStats = this.players.map(player => {
-                const stats = this.stats.find(ps => ps.id === player.id);
-                if(!stats) {
+            try {
+                const response = await fetch('http://localhost:5000/players/stats');
+                const data = await response.json();
+                this.stats = data;
+                this.playersStats = this.players.map(player => {
+                    const stats = this.stats.find(ps => ps.id === player.id);
+                    if(!stats) {
+                        return {
+                            id: player.id,
+                            role: player.role,
+                            name: player.name,
+                            team: player.team,
+                            fmv: player.fmv,
+                            pv: 0,
+                            mv: 0,
+                            fm: 0,
+                            gf: 0,
+                            gs: 0,
+                            rp: 0,
+                            rc: 0,
+                            rs: 0,
+                            rb: 0,
+                            as: 0,
+                            am: 0,
+                            es: 0,
+                            au: 0
+                        }
+                    }
                     return {
                         id: player.id,
                         role: player.role,
                         name: player.name,
                         team: player.team,
                         fmv: player.fmv,
-                        pv: 0,
-                        mv: 0,
-                        fm: 0,
-                        gf: 0,
-                        gs: 0,
-                        rp: 0,
-                        rc: 0,
-                        rs: 0,
-                        rb: 0,
-                        as: 0,
-                        am: 0,
-                        es: 0,
-                        au: 0
-                    }
-                }
-                return {
-                    id: player.id,
-                    role: player.role,
-                    name: player.name,
-                    team: player.team,
-                    fmv: player.fmv,
-                    pv: stats.pv,
-                    mv: stats.mv,
-                    fm: stats.fm,
-                    gf: stats.gf,
-                    gs: stats.gs,
-                    rp: stats.rp,
-                    rc: stats.rc,
-                    rs: stats.rs,
-                    rb: stats.rb,
-                    as: stats.as,
-                    am: stats.am,
-                    es: stats.es,
-                    au: stats.au
-                };
-            });
-            this.displayedPlayers = this.playersStats;
+                        pv: stats.pv,
+                        mv: stats.mv,
+                        fm: stats.fm,
+                        gf: stats.gf,
+                        gs: stats.gs,
+                        rp: stats.rp,
+                        rc: stats.rc,
+                        rs: stats.rs,
+                        rb: stats.rb,
+                        as: stats.as,
+                        am: stats.am,
+                        es: stats.es,
+                        au: stats.au
+                    };
+                });
+                this.displayedPlayers = this.playersStats;
+            } catch (error) {
+                location.href = '/frontend/error.html';
+            }
         },
         onFiltersChange() {
             this.displayedPlayers = this.playersStats.filter(player => this.selectedRoles.includes(player.role) && player.name.toLowerCase().includes(this.searchedPlayer.toLowerCase()));
