@@ -101,11 +101,9 @@ Vue.createApp({
         sort(header) {
             if(this.isSortDirectionAsc) {
                 this.isSortDirectionAsc = false;
-                this.displayedPlayers = this.playersStats;
                 this.sortAsc(this.displayedPlayers, header);
             } else {
                 this.isSortDirectionAsc = true;
-                this.displayedPlayers = this.playersStats;
                 this.sortDesc(this.displayedPlayers, header);
             }
         },

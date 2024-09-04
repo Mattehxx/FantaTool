@@ -7,12 +7,21 @@
 
     <!-- STYLES -->
     <link rel="stylesheet" href="/frontend/assets/modules/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/frontend/assets/css/style.css">
 </head>
 <body>
     <section id="main-app" class="d-flex justify-content-center align-items-center" style="min-height: 100vh; max-width: 100vw;" v-cloak>
+        <!-- Loader -->
+        <div class="d-flex flex-row justify-content-center align-items-center gap-4" style="width: 90%; padding: 1rem;" v-if="!loaded">
+            <h1 class="text-center">Caricamento</h1>
+            <i class="fa fa-spinner fa-spin fa-xl"></i>
+        </div>
+        <!-- End Loader -->
+
+        <!-- Main Content -->
         <div class="d-flex flex-column justify-content-center align-items-center" style="width: 90%; padding: 1rem;" v-if="loaded">
-            <h1 class="text-center">{{ title }}</h1>
-            <div class="card w-100">
+            <h1 class="text-center title">{{ title }}</h1>
+            <div class="card w-100 custom-card">
                 <div class="card-body text-bg-light d-flex justify-content-start align-items-center gap-4">
                     <div class="d-flex flex-column justify-content-center align-items-start gap-2">
                         <label>Ruolo</label>
@@ -33,7 +42,7 @@
                         <th v-for="header in headers">
                             <div class="d-flex justify-content-start align-items-center gap-3">
                                 <span>{{ header }}</span> 
-                                <i class="fa-solid fa-sort" @click="sort(header)" style="cursor: pointer;"></i>
+                                <i class="fa-solid fa-sort btn-sort" @click="sort(header)" style="color: #1E5CC8; cursor: pointer;"></i>
                             </div>
                         </th>
                     </tr>
@@ -61,6 +70,7 @@
                 </tbody>
             </table>
         </div>
+        <!-- End Main Content -->
     </section>
 
     <!-- SCRIPTS -->

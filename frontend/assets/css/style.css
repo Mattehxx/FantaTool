@@ -1,0 +1,121 @@
+.title {
+    font-family: 'Poppins', sans-serif;
+    /* Elegant and modern font */
+    font-size: 3rem;
+    /* Adjust size as needed */
+    color: #2c3e50;
+    /* Dark shade of blue */
+    text-align: center;
+    /* Center align the title */
+    margin: 20px 0;
+    /* Spacing above and below */
+    text-transform: uppercase;
+    /* Make all letters uppercase */
+    letter-spacing: 3px;
+    /* Add some space between letters */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow for depth */
+    position: relative;
+    /* Position for the pseudo-element */
+}
+
+.title::after {
+    content: '';
+    display: block;
+    width: 98%;
+    /* Increased width for a more noticeable effect */
+    height: 4px;
+    background: linear-gradient(to right, #e74c3c, #f39c12);
+    /* Gradient from red to orange */
+    margin: 15px auto 0;
+    border-radius: 2px;
+    /* Rounded edges for a softer look */
+    animation: expand 1s ease-out;
+    /* Animation effect */
+}
+
+@keyframes expand {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+
+    100% {
+        width: 98%;
+        opacity: 1;
+    }
+}
+
+.custom-card {
+    position: relative;
+    /* Necessary for the positioning of pseudo-elements */
+    overflow: hidden;
+    /* Prevent pseudo-elements from overflowing */
+    border: none;
+    /* Removes default border */
+    border-radius: 15px;
+    /* Rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    /* Soft shadow */
+}
+
+.custom-card::before,
+.custom-card::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    /* Rounded shape for the decorative elements */
+    z-index: 0;
+    /* Positioned behind the card content */
+    transform: scale(0);
+    /* Initial scale for animation */
+    transition: transform 0.5s ease;
+    /* Smooth transition effect */
+}
+
+/* Top-right decorative circle */
+.custom-card::before {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #e74c3c, #f39c12);
+    /* Gradient color */
+    top: -100px;
+    /* Position outside of the card's top */
+    right: -100px;
+    /* Position outside of the card's right */
+}
+
+/* Bottom-left decorative circle */
+.custom-card::after {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    /* Gradient color */
+    bottom: -100px;
+    /* Position outside of the card's bottom */
+    left: -100px;
+    /* Position outside of the card's left */
+}
+
+/* Hover effect to make the circles grow */
+.custom-card:hover::before,
+.custom-card:hover::after {
+    transform: scale(1);
+    /* Scale up the pseudo-elements on hover */
+}
+
+.custom-card .card-body {
+    position: relative;
+    /* Ensures the content is above the pseudo-elements */
+    z-index: 1;
+    /* Places content above the pseudo-elements */
+    background-color: white;
+    /* Ensures background stays solid */
+    border-radius: 15px;
+    /* Matches the card border radius */
+}
+
+.btn-sort:hover {
+    transform: scale(1.08);
+    transition: transform 0.1s ease;
+}
