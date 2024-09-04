@@ -1,5 +1,7 @@
 # FantaTool
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 FantaTool is a Python-based tool designed to help fantasy football players manage their leagues more effectively. It provides features for drafting, team management, league analysis, and much more. Whether you're new to fantasy football or a seasoned veteran, FantaTool aims to simplify your decision-making process with comprehensive analytics and user-friendly tools.
 
 ## Table of Contents
